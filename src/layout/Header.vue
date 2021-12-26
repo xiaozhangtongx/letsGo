@@ -21,10 +21,7 @@
     <!-- 登录注册部分 -->
     <div class="login">
       <li>
-        <router-link to="/register">注册</router-link>
-      </li>
-      <li>|</li>
-      <li>
+        <router-link to="/register">注册</router-link>|
         <router-link to="/login">登录</router-link>
       </li>
     </div>
@@ -44,6 +41,8 @@ export default {
 <style scoped lang='less'>
 .headers {
   display: flex;
+  background: #157aee;
+
   a {
     color: #fff;
     font-size: 20px;

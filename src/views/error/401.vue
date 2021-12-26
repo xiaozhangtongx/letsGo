@@ -12,7 +12,7 @@
             <div class="bullshit-oops">抱歉!</div>
             <div class="bullshit-headline">您没有操作权限...</div>
             <div class="bullshit-info">当前帐号没有操作权限,请更换账号重新操作！</div>
-            <router-link to="./main/home" class="bullshit-return-home">返回首页</router-link>
+            <router-link to="./home" class="bullshit-return-home">返回首页</router-link>
           </div>
         </a-col>
       </a-row>

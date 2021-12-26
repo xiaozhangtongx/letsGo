@@ -3,11 +3,23 @@
     <div class="carousel">
       <Carousel />
     </div>
+    <div class="like">
+      <like />
+    </div>
+    <div class="around">
+      <around />
+    </div>
+    <div class="vlog">
+      <vlog />
+    </div>
   </div>
 </template>
 
 <script>
 import Carousel from '@/views/home/components/Carousel'
+import like from '@/views/home/components/like'
+import around from '@/views/home/components/around'
+import vlog from '@/views/home/components/vlog'
 export default {
   name: '',
   data() {
@@ -16,6 +28,9 @@ export default {
   methods: {},
   components: {
     Carousel,
+    like,
+    around,
+    vlog,
   },
 }
 </script>
@@ -28,7 +43,22 @@ export default {
   align-items: center;
 }
 .carousel {
-  height: 30vh;
+  // height: 30vh;
+  width: 80%;
+  margin-top: 20px;
+}
+.like {
+  // height: 30vh;
+  width: 80%;
+  margin-top: 20px;
+}
+.around {
+  // height: 30vh;
+  width: 80%;
+  margin-top: 20px;
+}
+.vlog {
+  // height: 30vh;
   width: 80%;
   margin-top: 20px;
 }

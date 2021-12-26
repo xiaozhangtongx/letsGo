@@ -13,7 +13,6 @@
       <h3>4</h3>
     </div>
   </a-carousel>
-  
 </template>
 <script>
 export default {}
