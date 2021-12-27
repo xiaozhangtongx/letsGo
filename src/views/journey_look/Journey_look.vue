@@ -18,8 +18,9 @@
       </a-steps>
     </li>
     <li class="bottom">
-      <div class="spot">
-        <Spot v-for="item in spot" :key="item.index" :spot="item" />
+      <div class="spot" v-for="item in spot" :key="item.index">
+        <Spot :spot="item" />
+        <a-button type="danger">查看游记</a-button>
       </div>
       <div></div>
     </li>
@@ -35,7 +36,6 @@ export default {
     return {
       current: 0,
       stepStyle: {
-        marginBottom: '60px',
         boxShadow: '0px -1px 0 0 #e8e8e8 inset',
       },
       step: [
@@ -107,8 +107,15 @@ export default {
       flex: 1;
     }
   }
-  .spot {
-    width: 40vw;
+  .bottom {
+    display: flex;
+    flex-direction: column;
+    .spot {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 40vw;
+    }
   }
 }
 </style>

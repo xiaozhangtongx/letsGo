@@ -20,9 +20,26 @@
     </div>
     <!-- 登录注册部分 -->
     <div class="login">
-      <li>
+      <li v-if="isShow">
         <router-link to="/register">注册</router-link>|
         <router-link to="/login">登录</router-link>
+      </li>
+      <li v-else>
+        <a-dropdown :trigger="['click']">
+          <a class="ant-dropdown-link" @click="e => e.preventDefault()">
+            <a-avatar :src="user.avatar" />
+            {{user.nickname}}
+            <a-icon type="down" />
+          </a>
+          <a-menu slot="overlay" @click="onClick">
+            <a-menu-item key="/my">
+              <a-icon type="user" />个人中心
+            </a-menu-item>
+            <a-menu-item key="/home">
+              <a-icon type="logout" />退出登录
+            </a-menu-item>
+          </a-menu>
+        </a-dropdown>
       </li>
     </div>
   </div>
@@ -32,9 +49,31 @@
 export default {
   name: '',
   data() {
-    return {}
+    return {
+      user: this.$store.state.user,
+    }
   },
-  methods: {},
+  methods: {
+    // 下拉菜单栏点击事件
+    onClick({ key }) {
+      if (key == '/my') {
+        console.log(key)
+      } else {
+        window.sessionStorage.clear()
+        this.$store.dispatch('saveUserInfo', null)
+      }
+      this.$router.push(key)
+    },
+  },
+  computed: {
+    isShow() {
+      if (this.$store.state.user == null) {
+        return true
+      } else {
+        return false
+      }
+    },
+  },
 }
 </script>
 

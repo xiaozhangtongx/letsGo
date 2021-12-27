@@ -4,8 +4,7 @@
       <li>
         <div>
           <div>
-            <a-avatar :size="100"
-              src="https://www.acgtubao.com/wp-content/uploads/2020/08/57857552_p0-726x1024.jpg" />
+            <a-avatar :size="100" :src="user.avatar" />
           </div>
         </div>
       </li>
@@ -41,7 +40,9 @@
 export default {
   name: '',
   data() {
-    return {}
+    return {
+      user: this.$store.state.user,
+    }
   },
   methods: {},
 }
@@ -53,7 +54,7 @@ export default {
   justify-content: center;
   height: 20vh;
   line-height: 20vh;
-  background: url('http://5b0988e595225.cdn.sohucs.com/images/20190704/7fb8a00405384ca4acce0c97b01c3277.jpeg');
+  background: url('https://macjpeg.macsc.com/macw/pic/202009/03112832_657abfbe67.jpeg');
   > li {
     margin-right: 5vw;
     text-align: center;
@@ -73,14 +74,6 @@ export default {
     height: 8vh;
     line-height: 8vh;
     font-size: 20px;
-
-    > a {
-    }
-    &:hover {
-      cursor: pointer;
-      color: #157aee;
-      background-color: red;
-    }
   }
 }
 </style>

@@ -4,10 +4,10 @@
       <div class="spot">
         <li class="img"><img src="../assets/logo.png" alt="" srcset=""></li>
         <li class="detail">
-          <h3><strong>黄鹤楼</strong></h3>
-          <h3><strong>地址：</strong>{{spot.name}}</h3>
+          <h3><strong>{{spot.name}}</strong></h3>
+          <h3><strong>地址：</strong>{{spot.location}}</h3>
           <h3><strong>描述:</strong>
-            {{spot.dis}}</h3>
+            {{spot.name}}...</h3>
           <router-link to="">详细信息</router-link>
           <slot name="add"></slot>
         </li>
@@ -31,6 +31,11 @@ export default {
     return {}
   },
   methods: {},
+  filters: {
+    // strSlice(str) {
+    //   return str.slice(10) + '......'
+    // },
+  },
 }
 </script>
 

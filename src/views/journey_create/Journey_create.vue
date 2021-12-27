@@ -17,9 +17,9 @@
           2021年12月26日 周日
         </h3>
       </div>
-      <div class="trave_point">
+      <article class="trave_point">
         <Spot v-for="item in spot" :key="item.index" :spot="item" />
-      </div>
+      </article>
     </li>
     <!-- 右边景点信息 -->
     <li class="right">
@@ -31,65 +31,118 @@
           完成
         </a-button>
       </div>
+      <!-- 景点信息 -->
       <div class="rm_span">
-        <span><strong>当前城市</strong></span>
-        <span><strong>我的收藏</strong></span>
-      </div>
-      <!-- 添加景点部分 -->
-      <div>
-        <div class="rt_btn">
-          <a-button type="primary" style="margin-right:10px">
-            综合推荐
-          </a-button>
-          <a-button type="danger" style="margin-right:10px">
-            筛选
-          </a-button>
-          <a-input-search placeholder="请输入查找的内容" enter-button style="width:40%" />
-        </div>
-        <Spot v-for="item in 2" :key="item.index">>
-          <a-button icon="plus" size="small" slot="add">
-            添加至行程
-          </a-button>
-        </Spot>
+        <a-card style="width:100%" :tab-list="tabListNoTitle" :active-tab-key="noTitleKey"
+          @tabChange="key => onTabChange(key, 'noTitleKey')">
+          <section v-if="noTitleKey === '选择城市'">
+            <!-- 添加景点部分 -->
+            <div class="rm_btn">
+              <a-row type="flex" justify="space-around" align="middle">
+                <a-input-search placeholder="请输入查找的内容" enter-button style="width:50%" />
+                <a-button type="primary">
+                  综合推荐
+                </a-button>
+              </a-row>
+              <a-row type="flex" align="middle" justify="space-around">
+                <vue-area-cascader style="width:49%;margin-top:5px" v-model="citySelect">
+                </vue-area-cascader>
+                <a-button type="danger">
+                  查询
+                </a-button>
+              </a-row>
+            </div>
+            <!--  添加城市部分 -->
+            <article class="city">
+              <Spot v-for="item in spot" :key="item.index" :spot="item">>
+                <a-button icon="plus" size="small" slot="add">
+                  添加至行程
+                </a-button>
+              </Spot>
+              <a-button type="link" class="more" @click="addMore"><strong>
+                  <a-icon type="sync" spin />更多
+                </strong></a-button>
+            </article>
+
+          </section>
+          <section v-else>
+            <Spot v-for="item in spot" :key="item.index">>
+              <a-button icon="plus" size="small" slot="add">
+                添加至行程
+              </a-button>
+            </Spot>
+          </section>
+        </a-card>
       </div>
     </li>
   </div>
 </template>
 
 <script>
+import { list } from '@/api/attraction.js'
 import TravePoints from '@/views/journey_create/components/TravePoints'
 import Spot from '@/components/Spot'
+import VueAreaCascader from '@/components/VueAreaCascader'
 export default {
   name: '',
   data() {
     return {
       date: 2,
-      // 景点测试数据
-      spot: [
+      // 景点数据
+      spot: [],
+      citySelect: [],
+      search: {
+        pageNo: 1,
+        pageSize: 2,
+      },
+      tabListNoTitle: [
         {
-          name: 1,
-          dis: '456132',
+          key: '选择城市',
+          tab: '选择城市',
         },
         {
-          name: 1,
-          dis: '456132',
-        },
-        {
-          name: 1,
-          dis: '456132',
+          key: '我的收藏',
+          tab: '我的收藏',
         },
       ],
+      key: 'tab1',
+      noTitleKey: '选择城市',
     }
   },
   methods: {
+    // 获取景点信息
+    getSpotInfo() {
+      list(this.search)
+        .then(({ data: res }) => {
+          console.log(res.result)
+          this.spot.push(...res.result)
+          console.log(this.spot)
+        })
+        .catch((err) => {})
+    },
     // 行程创建完成
     createFinish() {
       this.$router.push('/journey/look')
+    },
+    // 切换页面
+    onTabChange(key, type) {
+      console.log(key, type)
+      this[type] = key
+    },
+    // 添加更多
+    addMore() {
+      this.search.pageNo += this.search.pageSize
+      this.getSpotInfo()
     },
   },
   components: {
     TravePoints,
     Spot,
+    VueAreaCascader,
+  },
+  created() {
+    // 获取景点信息
+    this.getSpotInfo()
   },
 }
 </script>
@@ -121,7 +174,9 @@ export default {
       border: #3164f0 solid 2px;
     }
     .trave_point {
+      height: 56vh;
       width: 90%;
+      overflow-y: auto;
       margin-top: 30px;
       border-top: #eee solid 2px;
     }
@@ -144,17 +199,18 @@ export default {
       display: flex;
       justify-content: flex-end;
     }
+    .rm_btn {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
     .rm_span {
       display: inline-flex;
-      span {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 50%;
-        height: 40px;
-        font-size: 18px;
-        background-color: #fff;
-        border: solid 1px #3164f0;
+      height: 60vh;
+      .city {
+        height: 40vh;
+        margin-top: 5px;
+        overflow-y: auto;
       }
     }
   }

@@ -16,8 +16,7 @@
             rules: [
               {
                 required: true,
-                message: '请输入你的六位密码!',
-               len:6
+                message: '请输入你的密码!',
               },
             ],
           },
@@ -37,6 +36,7 @@
 </template>
 
 <script>
+import { login } from '@/api/user.js'
 export default {
   beforeCreate() {
     this.form = this.$form.createForm(this, { name: 'normal_login' })
@@ -45,11 +45,21 @@ export default {
     // 用户登录
     handleSubmit(e) {
       e.preventDefault()
-      this.form.validateFields(async (err, values) => {
-        // console.log(values.userId.length)
-        if (!err) {
-          this.$router.replace('/home') // 页面跳转
-        }
+      this.form.validateFields((err, values) => {
+        login(values)
+          .then(({ data: res }) => {
+            if (res.success) {
+              this.$store.dispatch('saveUserInfo', res.result)
+              sessionStorage.setItem('store', JSON.stringify(this.$store.state))
+              this.$router.push('/home')
+              return this.$message.success(res.message)
+            } else {
+              return this.$message.error(res.message)
+            }
+          })
+          .catch((err) => {
+            return this.$message.error('登录异常，请稍后再试')
+          })
       })
     },
     // 用户注册

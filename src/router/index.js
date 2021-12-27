@@ -69,6 +69,12 @@ const routes = [
         name: 'Travel_notes',
         component: () => import('../views/note/Note.vue'),
       },
+      // 个人中心页面
+      {
+        path: '/my',
+        name: 'My',
+        component: () => import('../views/my/My.vue'),
+      },
     ],
   },
   //401权限不足
