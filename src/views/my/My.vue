@@ -65,9 +65,8 @@ export default {
   flex-direction: row;
   justify-content: space-evenly;
   padding-left: 0;
-  border-color: #fff;
-  border: 0.5px solid #000;
-
+  border-color: #eee;
+  // border: 0.5px solid #000;
   > li {
     flex-grow: 1;
     text-align: center;
