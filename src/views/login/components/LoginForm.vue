@@ -17,7 +17,6 @@
               {
                 required: true,
                 message: '请输入你的六位密码!',
-               len:6
               },
             ],
           },
@@ -46,10 +45,14 @@ export default {
     // 用户登录
     handleSubmit(e) {
       e.preventDefault()
-      this.form.validateFields(async (err, values) => {
+      this.form.validateFields((err, values) => {
         // console.log(values.userId.length)
-        const res = login(values)
-        console.log(res)
+         login(values).then( res => {
+           console.log(res);
+           if(res.data.success){
+
+           }
+         })
         if (!err) {
           // this.$router.replace('/home') // 页面跳转
         }
