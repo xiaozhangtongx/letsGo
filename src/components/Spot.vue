@@ -5,9 +5,9 @@
         <li class="img"><img src="../assets/logo.png" alt="" srcset=""></li>
         <li class="detail">
           <h3><strong>黄鹤楼</strong></h3>
-          <h3><strong>地址：</strong>位于湖北省武汉市武昌区</h3>
-          <h3><strong>评价:</strong>
-            黄鹤楼是古典与现代熔铸、诗化与美意构筑的精品...</h3>
+          <h3><strong>地址：</strong>{{spot.name}}</h3>
+          <h3><strong>描述:</strong>
+            {{spot.dis}}</h3>
           <router-link to="">详细信息</router-link>
           <slot name="add"></slot>
         </li>
@@ -19,6 +19,14 @@
 <script>
 export default {
   name: '',
+  props: {
+    spot: {
+      type: Object,
+      default() {
+        return {}
+      },
+    },
+  },
   data() {
     return {}
   },
@@ -29,8 +37,9 @@ export default {
 <style scoped lang='less'>
 #spot {
   width: 100%;
+  border-radius: 5px;
   margin-top: 10px;
-  overflow: hidden;
+  // overflow: hidden;
   .spot {
     display: flex;
     align-items: center;
@@ -64,6 +73,10 @@ export default {
   zoom: 1;
 }
 /deep/.ant-card {
-  margin-top: 10px;
+  margin: 10px;
+  border-radius: 10px;
+}
+/deep/.ant-card-bordered {
+  border: 2px solid rgb(241, 239, 239);
 }
 </style>

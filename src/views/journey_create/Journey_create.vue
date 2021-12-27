@@ -18,7 +18,7 @@
         </h3>
       </div>
       <div class="trave_point">
-        <Spot v-for="item in 2" :key="item.index" />
+        <Spot v-for="item in spot" :key="item.index" :spot="item" />
       </div>
     </li>
     <!-- 右边景点信息 -->
@@ -63,7 +63,22 @@ export default {
   name: '',
   data() {
     return {
-      date: 4,
+      date: 2,
+      // 景点测试数据
+      spot: [
+        {
+          name: 1,
+          dis: '456132',
+        },
+        {
+          name: 1,
+          dis: '456132',
+        },
+        {
+          name: 1,
+          dis: '456132',
+        },
+      ],
     }
   },
   methods: {

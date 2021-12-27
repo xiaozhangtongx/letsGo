@@ -35,9 +35,10 @@ export default {
   }
   section {
     min-height: 88vh;
-    padding: 2vh 3vw;
+    padding: 2vw 2vw;
     background-color: #eee;
     > div {
+      border-radius: 10px;
       background-color: #fff;
     }
   }

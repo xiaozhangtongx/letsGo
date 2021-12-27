@@ -90,6 +90,12 @@ const router = new VueRouter({
   routes,
 })
 
+// 取消重复点击警报
+const VueRouterPush = VueRouter.prototype.push
+VueRouter.prototype.push = function push(to) {
+  return VueRouterPush.call(this, to).catch((err) => err)
+}
+
 /*--------------------------------------------------------路由守卫--------------------------------------------------------*/
 router.beforeEach((to, from, next) => {
   if (to.path != from.path) {
