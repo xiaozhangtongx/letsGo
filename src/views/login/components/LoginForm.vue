@@ -37,6 +37,7 @@
 </template>
 
 <script>
+import { login } from '@/api/user.js'
 export default {
   beforeCreate() {
     this.form = this.$form.createForm(this, { name: 'normal_login' })
@@ -47,8 +48,10 @@ export default {
       e.preventDefault()
       this.form.validateFields(async (err, values) => {
         // console.log(values.userId.length)
+        const res = login(values)
+        console.log(res)
         if (!err) {
-          this.$router.replace('/home') // 页面跳转
+          // this.$router.replace('/home') // 页面跳转
         }
       })
     },
