@@ -1,12 +1,12 @@
 <template>
-  <div class="layout">
-    <header class="header">
-      <Header />
+  <div id="layout">
+    <header>
+      <Header></Header>
     </header>
-    <div style="padding: 0 50px" class="content">
+    <section>
       <router-view></router-view>
-    </div>
-    <footer class="footer">
+    </section>
+    <footer>
       走 马 ©2021 Created by 晓 游
     </footer>
   </div>
@@ -26,29 +26,27 @@ export default {
 }
 </script>
 
-
-<style lang="less" scoped>
-.layout {
-  width: 100vw;
+<style scoped lang='less'>
+#layout {
   height: 100vh;
-  .header {
+  width: 100vw;
+  header {
     height: 8vh;
-    width: 100vw;
-    padding: 0 50px;
-    background: #157aee;
   }
-  .content {
-    // height: 90vh;
-    min-height: 90vh;
+  section {
+    min-height: 88vh;
+    padding: 2vh 3vw;
     background-color: #eee;
     > div {
       background-color: #fff;
-      padding: '24px';
     }
   }
-  .footer {
-    height: 2vh;
+  footer {
+    height: 4vh;
+    line-height: 4vh;
+    color: #fff;
     text-align: center;
+    background-color: #157aee;
   }
 }
 </style>

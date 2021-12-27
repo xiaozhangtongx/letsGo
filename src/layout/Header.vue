@@ -10,12 +10,12 @@
       <li>
         <router-link to="/strategy">攻略</router-link>
       </li>
-      <a-input-search placeholder="请输入搜索的内容" style="width: 25%" />
+      <a-input-search placeholder="请输入搜索的内容" style="width: 20%" />
       <li>
         <router-link to="/journey">行程</router-link>
       </li>
       <li>
-        <router-link to="/tav==travel_notes">游记</router-link>
+        <router-link to="/travel_notes">游记</router-link>
       </li>
     </div>
     <!-- 登录注册部分 -->
@@ -41,8 +41,9 @@ export default {
 <style scoped lang='less'>
 .headers {
   display: flex;
+  height: 100%;
+  width: 100%;
   background: #157aee;
-
   a {
     color: #fff;
     font-size: 20px;
@@ -87,7 +88,7 @@ export default {
   justify-content: space-evenly;
   align-items: center;
   li {
-    width: 10vh;
+    // width: 8vw;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -95,12 +96,5 @@ export default {
     color: #fff;
     cursor: pointer;
   }
-}
-
-/deep/.ant-layout-header {
-  height: 8vh;
-  padding: 0 50px;
-  // line-height: 8vh;
-  background: #157aee;
 }
 </style>

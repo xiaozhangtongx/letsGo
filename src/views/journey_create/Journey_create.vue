@@ -27,7 +27,7 @@
         <a-button icon="compass" type="primary" style="margin-right:10px">
           行程地图
         </a-button>
-        <a-button type="danger">
+        <a-button type="danger" @click="createFinish">
           完成
         </a-button>
       </div>
@@ -63,10 +63,15 @@ export default {
   name: '',
   data() {
     return {
-      date: 2,
+      date: 4,
     }
   },
-  methods: {},
+  methods: {
+    // 行程创建完成
+    createFinish() {
+      this.$router.push('/journey/look')
+    },
+  },
   components: {
     TravePoints,
     Spot,

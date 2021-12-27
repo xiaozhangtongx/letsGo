@@ -33,7 +33,13 @@ const routes = [
       {
         path: '/home',
         name: 'Home',
-        component: () => import('../views/home/Home.vue'),
+        component: () => import('../views/home2/Home.vue'),
+      },
+      // 攻略界面
+      {
+        path: '/strategy',
+        name: 'Strategy',
+        component: () => import('../views/strategy/Strategy.vue'),
       },
       // 行程页面
       {
@@ -42,13 +48,26 @@ const routes = [
         redirect: '/journey/create',
         component: () => import('../views/journey/Journey.vue'),
         children: [
+          // 行程创建
           {
             path: '/journey/create',
             name: 'Ceatjourney',
             component: () =>
               import('../views/journey_create/Journey_create.vue'),
           },
+          // 行程浏览
+          {
+            path: '/journey/look',
+            name: 'Lookjourney',
+            component: () => import('../views/journey_look/Journey_look.vue'),
+          },
         ],
+      },
+      // 游记界面
+      {
+        path: '/travel_notes',
+        name: 'Travel_notes',
+        component: () => import('../views/note/Note.vue'),
       },
     ],
   },
