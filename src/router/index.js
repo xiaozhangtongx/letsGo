@@ -53,13 +53,14 @@ const routes = [
             path: '/journey/create',
             name: 'Ceatjourney',
             component: () =>
-              import('../views/journey_create/Journey_create.vue'),
+              import('../views/journey/journey_create/Journey_create.vue'),
           },
           // 行程浏览
           {
             path: '/journey/look',
             name: 'Lookjourney',
-            component: () => import('../views/journey_look/Journey_look.vue'),
+            component: () =>
+              import('../views/journey/journey_look/Journey_look.vue'),
           },
         ],
       },

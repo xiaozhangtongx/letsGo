@@ -6,7 +6,7 @@
       </a-form-item>
       <a-form-item>
         <a-upload :multiple="true" :fileList="downloadFiles" :remove="handleDownloadFileRemove"
-          :customRequest="downloadFilesCustomRequest" :headers="headers">
+          :customRequest="downloadFilesCustomRequest">
           <a-button class="upload-btn">
             <a-icon type="upload" /> 上传附件
           </a-button>
@@ -22,7 +22,7 @@ export default {
   name: 'demoForm',
   data() {
     return {
-      headers: {},
+      // headers: {},
       form: this.$form.createForm(this), // 表单数据初始化
       downloadFiles: [], // 已经上传的文件列表
     }
@@ -30,13 +30,15 @@ export default {
   methods: {
     // 重写a-upload的文件上传处理方式
     downloadFilesCustomRequest(data) {
+      console.log(data)
       this.saveFile(data)
     },
     // 上传并保存文件
     saveFile(data) {
       const formData = new FormData()
+      console.log(data.file)
       formData.append('file', data.file)
-      formData.append('TempleteFile', data.file.name)
+      formData.append('fileName', data.file.name)
       upload(formData).then((res) => {
         // 发送http请求
         if (res.code === 0) {

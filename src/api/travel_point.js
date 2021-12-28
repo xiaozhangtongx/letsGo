@@ -41,13 +41,13 @@ export function edit(data) {
 
 /**
  * 根据查询得到的travelplan,如果要一个行程，建议使用traveplan的api
- * @param {用户信息} data
+ * @param {用户信息} params
  * @returns
  */
-export function list(data) {
+export function travelPointslist(params) {
   return request({
     url: '/travel-point/auth/list',
     method: 'get',
-    data,
+    params,
   })
 }

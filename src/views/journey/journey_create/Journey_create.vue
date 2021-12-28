@@ -1,12 +1,25 @@
 <template>
   <div id="journey_create">
-    <!-- 左侧行程信息 -->
+    <!---------------------------- 左侧行程信息 ---------------------------->
     <li class="left">
       <h1>我的行程单</h1>
-      <h2>{{date}}天</h2>
-      <TravePoints v-for="item in 4" :key="item.index" />
+      <h2>{{days.length}}天</h2>
+      <!-- 添加一天按钮 -->
+      <div>
+        <a-button type="primary" icon="plus" @click="showModal">
+          添加一天
+        </a-button>
+        <a-modal title="请选择你出行的日期" :visible="visible" @ok="handleOk" @cancel="handleCancel">
+          <a-date-picker v-model="day.time" show-time type="day.time" placeholder="选择日期" />
+        </a-modal>
+      </div>
+      <div class="travelPoints">
+        <div v-for="item in days" :key="item.index" style="width:80%">
+          <TravePoints />
+        </div>
+      </div>
     </li>
-    <!-- 中间添加行程 -->
+    <!---------------------------- 中间添加的景点信息 ---------------------------->
     <li class="center">
       <div class="time">
         <h2>
@@ -21,7 +34,7 @@
         <Spot v-for="item in spot" :key="item.index" :spot="item" />
       </article>
     </li>
-    <!-- 右边景点信息 -->
+    <!---------------------------- 右侧景点信息 ---------------------------->
     <li class="right">
       <div class="rt_btn">
         <a-button icon="compass" type="primary" style="margin-right:10px">
@@ -31,7 +44,6 @@
           完成
         </a-button>
       </div>
-      <!-- 景点信息 -->
       <div class="rm_span">
         <a-card style="width:100%" :tab-list="tabListNoTitle" :active-tab-key="noTitleKey"
           @tabChange="key => onTabChange(key, 'noTitleKey')">
@@ -63,7 +75,6 @@
                   <a-icon type="sync" spin />更多
                 </strong></a-button>
             </article>
-
           </section>
           <section v-else>
             <Spot v-for="item in spot" :key="item.index">>
@@ -78,20 +89,39 @@
   </div>
 </template>
 
+<!--------------------------------------------------- js --------------------------------------------------->
 <script>
 import { list } from '@/api/attraction.js'
-import TravePoints from '@/views/journey_create/components/TravePoints'
+import { travelPointslist } from '@/api/travel_point.js'
+// import SelectTime from '@/views/journey/journey_create/components/SelectTime'
+import TravePoints from '@/views/journey/journey_create/components/TravePoints'
 import Spot from '@/components/Spot'
 import VueAreaCascader from '@/components/VueAreaCascader'
 export default {
   name: '',
   data() {
     return {
-      date: 2,
       // 景点数据
       spot: [],
+      // 用户景点信息
+      // 选择日期信息
+      visible: false,
+      date: new Date(),
+      // travelPoints
+      day: {
+        place: '',
+        time: undefined,
+      },
+      // 日期数
+      days: [],
+      // 用户节点信息
+      UserSpot: [],
       citySelect: [],
       search: {
+        pageNo: 1,
+        pageSize: 2,
+      },
+      travelplanParams: {
         pageNo: 1,
         pageSize: 2,
       },
@@ -114,12 +144,61 @@ export default {
     getSpotInfo() {
       list(this.search)
         .then(({ data: res }) => {
-          console.log(res.result)
+          // console.log(res.result)
           this.spot.push(...res.result)
-          console.log(this.spot)
+          // console.log(this.spot)
         })
         .catch((err) => {})
     },
+    // 选择日期
+    showModal() {
+      this.visible = true
+    },
+    handleOk(e) {
+      this.days.push(this.date)
+      this.days.sort((a, b) => {
+        //降序
+        // return a.time < b.time ? 1 : -1
+        //升序
+        return a > b ? 1 : -1
+      })
+      console.log(this.days)
+      // console.log(this.date)
+      this.visible = false
+    },
+    handleCancel(e) {
+      this.visible = false
+    },
+    // 获取用户行程信息
+    /*gettravelPoints() {
+      travelPointslist(this.search)
+        .then(({ data: res }) => {
+          let arr = res.result
+          console.log(arr)
+          // let map = {}
+          // let myArr = []
+          // for (let i = 0; i < arr.length; i++) {
+          //   if (!map[arr[i].travelPlanId]) {
+          //     myArr.push({
+          //       travelPlanId: arr[i].travelPlanId,
+          //       data: [arr[i]],
+          //     })
+          //     map[arr[i].travelPlanId] = arr[i]
+          //   } else {
+          //     for (let j = 0; j < myArr.length; j++) {
+          //       if (arr[i].travelPlanId === myArr[j].travelPlanId) {
+          //         myArr[j].data.push(arr[i])
+          //         break
+          //       }
+          //     }
+          //   }
+          // }
+          // console.log(myArr)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },*/
     // 行程创建完成
     createFinish() {
       this.$router.push('/journey/look')
@@ -135,18 +214,24 @@ export default {
       this.getSpotInfo()
     },
   },
+  // 组件部分
   components: {
     TravePoints,
     Spot,
     VueAreaCascader,
+    // SelectTime,
   },
   created() {
     // 获取景点信息
     this.getSpotInfo()
+    // 获取用户行程信息
+    // this.gettravelPoints()
   },
 }
 </script>
 
+
+<!--------------------------------------------------- css --------------------------------------------------->
 <style scoped lang='less'>
 #journey_create {
   width: 100%;
@@ -158,6 +243,16 @@ export default {
     align-items: center;
     margin-top: 20px;
     border-right: 1px #eee solid;
+  }
+  .left {
+    .travelPoints {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      height: 60vh;
+      overflow-y: auto;
+    }
   }
   .center {
     flex: 3;

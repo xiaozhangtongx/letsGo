@@ -1,11 +1,5 @@
 <template>
   <div id="travepoints">
-    <a-tooltip>
-      <template slot="title">
-        插入一天
-      </template>
-      <a-button type="primary" size="small" icon="plus" />
-    </a-tooltip>
     <li class="points">
       <span class="points_left">
         <span class="daynum">D1</span>

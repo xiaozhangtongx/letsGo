@@ -13,8 +13,9 @@
         </quill-editor>
       </div>
       <!-- 图片上传 -->
-      <!-- <Photo /> -->
-      <UploadPhoto />
+      <Photo />
+      <!-- <img src="https://letsgo222.oss-cn-beijing.aliyuncs.com/图片1.png" alt="" srcset=""> -->
+      <!-- <UploadPhoto /> -->
       <div class="bt_btns">
         <a-button type="danger" icon="upload">
           发布
@@ -56,8 +57,8 @@ export default {
             [{ font: [] }], // 字体种类
             [{ align: [] }], // 对齐方式
             ['clean'], // 清除文本格式
-            ['link'],
-            // ['link', 'image', 'video'], // 链接、图片、视频
+            // ['link'],
+            ['link', 'image', 'video'], // 链接、图片、视频
           ], //工具菜单栏配置
         },
         placeholder: '请输入文本...', //提示

@@ -37,14 +37,33 @@
 </template>
 
 <script>
+import { travelPlanlist } from '@/api/travel_plan.js'
 export default {
   name: '',
   data() {
     return {
       user: this.$store.state.user,
+      travelplanParams: {
+        pageNo: 1,
+        pageSize: 2,
+      },
     }
   },
-  methods: {},
+  methods: {
+    // 获取用户所有的行程
+    getUserSpotInfo() {
+      travelPlanlist(this.travelplanParams)
+        .then(({ data: res }) => {
+          console.log(res.result)
+          // this.spot.push(...res.result)
+          // console.log(this.spot)
+        })
+        .catch((err) => {})
+    },
+  },
+  created() {
+    this.getUserSpotInfo()
+  },
 }
 </script>
 
