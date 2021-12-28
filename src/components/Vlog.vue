@@ -12,43 +12,29 @@
           @change="onEditorChange($event)">
         </quill-editor>
       </div>
-      <div class="clearfix">
-        <a-upload action="https://www.mocky.io/v2/5cc8019d300000980a055e76" list-type="picture-card"
-          :file-list="fileList" @preview="handlePreview" :@change="handleChange">
-          <div v-if="fileList.length < 8">
-            <a-icon type="plus" />
-            <div class="ant-upload-text">
-              Upload
-            </div>
-          </div>
-        </a-upload>
-        <a-modal :visible="previewVisible" :footer="null" :@cancel="handleCancel">
-          <img alt="example" style="width: 100%" :src="previewImage" />
-        </a-modal>
+      <!-- 图片上传 -->
+      <!-- <Photo /> -->
+      <UploadPhoto />
+      <div class="bt_btns">
+        <a-button type="danger" icon="upload">
+          发布
+        </a-button>
+        <a-button type="primary" icon="save">
+          保存
+        </a-button>
       </div>
     </a-card>
   </div>
 
 </template>
 <script>
+import Photo from '@/components/Photo'
+import UploadPhoto from '@/components/UploadPhoto'
 import { quillEditor } from 'vue-quill-editor' //调用编辑器
 import 'quill/dist/quill.core.css'
 import 'quill/dist/quill.snow.css'
 import 'quill/dist/quill.bubble.css'
-// 图片给格式转换
-function getBase64(event) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader()
-    let file = event.target.files[0]
-    reader.readAsDataURL(file)
-    reader.onload = () => resolve(reader.result)
-    reader.onerror = (error) => reject(error)
-  })
-}
 export default {
-  components: {
-    quillEditor,
-  },
   data() {
     return {
       value: 3,
@@ -115,23 +101,14 @@ export default {
       console.log(editor)
     }, // 内容改变事件
   },
+  components: {
+    Photo,
+    quillEditor,
+    UploadPhoto,
+  },
   computed: {
     editor() {
       return this.$refs.myQuillEditor.quill
-    },
-    // 上传图片操作
-    handleCancel() {
-      this.previewVisible = false
-    },
-    async handlePreview(file) {
-      if (!file.url && !file.preview) {
-        file.preview = await getBase64(file.originFileObj)
-      }
-      this.previewImage = file.url || file.preview
-      this.previewVisible = true
-    },
-    handleChange({ fileList }) {
-      this.fileList = fileList
     },
   },
 }
@@ -143,22 +120,17 @@ export default {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  .edit_container {
+    width: 100%;
+    min-height: 100px;
+  }
+  .bt_btns {
+    display: flex;
+    justify-content: space-evenly;
+  }
 }
-.edit_container {
-  width: 100%;
-  min-height: 100px;
-}
+
 /deep/.ql-editor {
   min-height: 200px;
-}
-
-.ant-upload-select-picture-card i {
-  font-size: 32px;
-  color: #999;
-}
-
-.ant-upload-select-picture-card .ant-upload-text {
-  margin-top: 8px;
-  color: #666;
 }
 </style>
