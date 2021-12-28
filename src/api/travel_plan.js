@@ -1,35 +1,34 @@
 import request from '@/utils/request'
 
-
 //post method= {post | put}
-export function httpAction(url,parameter,method) {
+export function httpAction(url, parameter, method) {
   return request({
     url: url,
-    method:method ,
+    method: method,
     data: parameter,
   })
 }
 
 //put
-export function putAction(url,parameter) {
+export function putAction(url, parameter) {
   return request({
     url: url,
-    method:'put',
-    data: parameter
+    method: 'put',
+    data: parameter,
   })
 }
 
 //post
-export function postAction(url,parameter) {
+export function postAction(url, parameter) {
   return request({
     url: url,
-    method:'post' ,
+    method: 'post',
     data: parameter,
   })
 }
 
 //get
-export function getAction(url,parameter) {
+export function getAction(url, parameter) {
   return request({
     url: url,
     method: 'get',
@@ -90,14 +89,14 @@ export function getByPlanId(planId) {
 
 /**
  * 展示所有的行程
- * @param {用户信息} data
+ * @param {用户信息} params
  * @returns
  */
-export function list(data) {
+export function travelPlanlist(params) {
   return request({
     url: '/travel-plan/auth/list',
     method: 'get',
-    data,
+    params,
   })
 }
 
@@ -113,5 +112,3 @@ export function save(data) {
     data,
   })
 }
-
-

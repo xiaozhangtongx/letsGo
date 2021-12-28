@@ -2,11 +2,12 @@
   <div id="travepoints">
     <li class="points">
       <span class="points_left">
-        <span class="daynum">D1</span>
+        <span class="daynum">D{{index}}</span>
       </span>
       <span class="points_right">
-        <h3>{{date}}</h3>
-        <h3>{{place}}</h3>
+        {{point}}
+        <!-- <h3>{{date}}</h3>
+        <h3>{{place}}</h3> -->
       </span>
     </li>
   </div>
@@ -15,6 +16,20 @@
 <script>
 export default {
   name: '',
+  props: {
+    point: {
+      type: Object,
+      default() {
+        return {}
+      },
+    },
+    index: {
+      type: Number,
+      default() {
+        return 0
+      },
+    },
+  },
   data() {
     return {
       date: '2021年12月11日',

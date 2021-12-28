@@ -1,9 +1,10 @@
 <template>
-  <div>
-    <div>
-      <a-input-search placeholder="输入关键词搜索" v-model="keyWord" style="width: 200px"
+  <div id="stategy">
+    <div class="search">
+      <a-input-search placeholder="输入关键词搜索" v-model="keyWord" style="width: 80%" enter-button
         @search="onSearch" />
     </div>
+
     <div>
       <div v-for="item in selectSource" :key="item.index">
         <span style="font-size:20px;font-weight: bolder;margin-right: 30px;">{{item.name}}:</span>
@@ -17,10 +18,26 @@
       <div>
         <a-tabs default-active-key="1">
           <a-tab-pane key="1" tab="景点">
-            Content of 景点
+            <div class="spot">
+              <Spot v-for="(item,index) in dataSource.attractionList" :key=index :spot="item">
+                <a-button type="link" slot="add" icon="heart">
+                  收藏
+                </a-button>
+              </Spot>
+              <a-button type="link" icon="sync">更多</a-button>
+            </div>
+
           </a-tab-pane>
-          <a-tab-pane key="2" tab="游记" force-render>
-            Content of 游记
+          <a-tab-pane key=" 2" tab="游记" force-render>
+            <!-- Content of 游记 -->
+            <div class="spot">
+              <Spot v-for="(item,index) in dataSource.attractionList" :key=index :spot="item">
+                <a-button type="link" slot="add" icon="heart">
+                  收藏
+                </a-button>
+              </Spot>
+              <a-button type="link" icon="sync">更多</a-button>
+            </div>
           </a-tab-pane>
         </a-tabs>
       </div>
@@ -30,7 +47,7 @@
 
 <script>
 import { getAction, postAction, putAction } from '@/api/travel_plan'
-
+import Spot from '@/components/Spot'
 export default {
   name: '',
   data() {
@@ -159,19 +176,49 @@ export default {
         this.tagList.push(item.value)
       })
       this.tagList = this.tagList.join(';')
-      getAction(this.url.vlog, { keyWord: this.keyWord, tags: this.tagList }).then((res) => {
+      getAction(this.url.vlog, {
+        keyWord: this.keyWord,
+        tags: this.tagList,
+      }).then((res) => {
         this.dataSource.vlogList = res.data.result
         console.log('vlog', res)
       })
-      getAction(this.url.attraction, { keyWord: this.keyWord, tags: this.tagList }).then((res) => {
+      getAction(this.url.attraction, {
+        keyWord: this.keyWord,
+        tags: this.tagList,
+        pageNo: 1,
+        pageSize: 3,
+      }).then((res) => {
         this.dataSource.attractionList = res.data.result
         console.log('attraction', res)
       })
     },
   },
-  created() {},
+  created() {
+    this.onSearch()
+  },
+  components: {
+    Spot,
+  },
 }
 </script>
 
 <style scoped lang='less'>
+#stategy {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  .search {
+    width: 50vw;
+    margin: 20px 0px;
+  }
+  .spot {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 49vh;
+    overflow-y: scroll;
+  }
+}
 </style>

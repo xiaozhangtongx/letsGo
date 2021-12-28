@@ -5,7 +5,7 @@ import request from '@/utils/request'
  * @param {结点信息} data
  * @returns
  */
-export function add(data) {
+export function addPoint(data) {
   return request({
     url: '/travel-point/auth/add',
     method: 'post',

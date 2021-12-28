@@ -17,6 +17,7 @@
 </template>
 
 <script>
+import { add } from '@/api/travel_point.js'
 export default {
   name: '',
   props: {
