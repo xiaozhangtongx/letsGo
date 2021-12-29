@@ -4,6 +4,7 @@
       <Carousel />
     </div>
     <div class="like">
+      hjk
       <like />
     </div>
     <div class="around">
@@ -43,7 +44,6 @@ export default {
   align-items: center;
 }
 .carousel {
-  // height: 30vh;
   width: 80%;
   margin-top: 20px;
 }

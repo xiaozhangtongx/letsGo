@@ -79,11 +79,11 @@ export function edit(data) {
  * @param {行程id} planId
  * @returns
  */
-export function getByPlanId(planId) {
+export function getByPlanId(params) {
   return request({
     url: '/travel-plan/auth/getByPlanId',
     method: 'get',
-    planId,
+    params,
   })
 }
 
@@ -105,7 +105,7 @@ export function travelPlanlist(params) {
  * @param {行程信息} data
  * @returns
  */
-export function save(data) {
+export function travelPlansave(data) {
   return request({
     url: '/travel-plan/auth/save',
     method: 'put',

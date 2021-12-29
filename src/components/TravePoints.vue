@@ -7,7 +7,6 @@
       <span class="points_right">
         <!-- {{point}} -->
         <h3>{{point.dateTime}}</h3>
-        <h3>{{place}}</h3>
       </span>
     </li>
   </div>

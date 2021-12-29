@@ -10,24 +10,25 @@
           添加一天
         </a-button>
         <a-modal title="请选择你出行的日期" :visible="visible" @ok="handleOk" @cancel="handleCancel">
-          <!-- <a-date-picker @change="onChange" placeholder="选择日期" /> -->
           <a-date-picker @change="onChange" placeholder="选择日期" />
         </a-modal>
       </div>
       <div class="travelPoints">
-        <div v-for="(item,index) in days" :key="index" style="width: 80%">
+        <div v-for="(item, index) in days" :key="index" style="width: 80%">
           <TravePoints :point="item" :indexs="index" />
         </div>
       </div>
     </li>
     <!---------------------------- 中间添加的景点信息 ---------------------------->
     <li class="center" v-show="isShow">
-      <div class="time" v-if="days.length!=0">
+      <div class="time" v-if="days.length != 0">
         <h2>
-          <a-icon type="left-circle" @click="sub" /><strong>第{{id+1}}天</strong>
+          <a-icon type="left-circle" @click="sub" /><strong>第{{ id + 1 }}天</strong>
           <a-icon type="right-circle" @click="add" />
         </h2>
-        <h3><strong>{{days[id].dateTime}}</strong></h3>
+        <h3>
+          <strong>{{ days[id].dateTime }}</strong>
+        </h3>
       </div>
       <article class="trave_point">
         <Spot v-for="(item, index) in tran[id]" :key="index" :spot="item" :index="index">
@@ -40,9 +41,26 @@
     <!---------------------------- 右侧景点信息 ---------------------------->
     <li class="right" v-show="isShow">
       <div class="rt_btn">
-        <a-button icon="compass" type="primary" style="margin-right: 10px">
-          行程地图
-        </a-button>
+        <a-modal :visible="isfinish" okText="确认" title="请输入行程名" cancel-text="取消"
+          @cancel="handleCancel" @ok="handleFinsh">
+          <!--表单 并将表单的值绑定到this.from-->
+          <a-form layout="vertical" :form="form">
+            <!--每一项元素-->
+            <a-form-item>
+              <a-input v-decorator="[
+                  'name',
+                  {
+                    rules: [{ required: true, message: '请填填写名称!' }],
+                  },
+                ]" />
+            </a-form-item>
+          </a-form>
+        </a-modal>
+        <!-- <a-modal title="请输入行程名" :visible="isfinish" @ok="handleFinsh" @cancel="handleCancel"
+          ok-text="确认" cancel-text="取消">
+          {{test1}}
+          <a-input ref="test" v-model="test1"></a-input>
+        </a-modal> -->
         <a-button type="danger" @click="createFinish"> 完成 </a-button>
       </div>
       <div class="rm_span">
@@ -72,7 +90,6 @@
                   <a-icon type="sync" spin />更多
                 </strong></a-button>
             </article>
-
           </section>
           <section v-else>
             <article class="city">
@@ -95,7 +112,7 @@
 <!--------------------------------------------------- js --------------------------------------------------->
 <script>
 import { list } from '@/api/attraction.js'
-import { postAction, travelPlanlist } from '@/api/travel_plan.js'
+import { postAction, travelPlanlist, travelPlansave } from '@/api/travel_plan.js'
 import { addPoint, deletes } from '@/api/travel_point.js'
 // import SelectTime from '@/views/journey/journey_create/components/SelectTime'
 import TravePoints from '@/components/TravePoints'
@@ -105,23 +122,28 @@ export default {
   name: '',
   data() {
     return {
+      test1: '',
       // 要传递的数据
       modal: {
         addtravepoint: {
           attractionId: '',
           dateTime: new Date(),
         },
+        addPlan() {
+          plans: {
+          }
+        },
       },
-      travelPlanId: '',
+      travelPlanId: this.$route.query.id,
       // 要传递的数据
       tran: [],
       id: 0,
       // 景点数据
       spot: [],
-      // 用户选择景点信息
-      spots: [],
       // 选择日期信息
       visible: false,
+      // 展示是否弹出最后提交的对话框
+      isfinish: false,
       date: new Date(),
       // travelPoints
       day: {
@@ -186,24 +208,16 @@ export default {
           console.log('planid', this.travelPlanId)
         })
       }
-      // if (this.day.time == undefined) {
-      // return this.$message.error('请选择日期')
-      // } else {
       this.days.push(this.day.time)
       this.days.sort((a, b) => {
-        //降序
-        // return a.time < b.time ? 1 : -1
-        //升序
         return a > b ? 1 : -1
       })
       this.visible = false
-      // this.day.time = undefined
-      // }
     },
     handleCancel(e) {
       this.visible = false
+      this.isfinish = false
     },
-    // 选择日期
     add() {
       if (this.id < this.tran.length) {
         this.id++
@@ -225,10 +239,10 @@ export default {
       travelPlanlist({ id: this.travelPlanId })
         .then(({ data: res }) => {
           let arr = res.result.list
+          this.modal.addPlan.plans = res.result
           console.log(arr)
           let map = {}
           let myArr = []
-          this.spots = []
           for (let i = 0; i < arr.length; i++) {
             if (!map[arr[i].dateTime]) {
               myArr.push({
@@ -245,7 +259,6 @@ export default {
               }
             }
           }
-          // this.spots = myArr
           this.days = myArr
           myArr.sort((a, b) => {
             return a.dateTime > b.dateTime ? 1 : -1
@@ -254,11 +267,6 @@ export default {
           myArr.forEach((item) => {
             this.tran.push(item.data)
           })
-          console.log('tran', this.tran)
-          this.spots = myArr
-          // this.id = this.id + 1
-          // console.log(this.spots[2].data)
-          // console.log(myArr)
         })
         .catch((err) => {
           console.log(err)
@@ -266,7 +274,34 @@ export default {
     },
     // 行程创建完成
     createFinish() {
-      this.$router.push('/journey/look')
+      this.isfinish = true
+    },
+    // 提交行程
+    handleFinsh() {
+      const form = this.form
+      form.validateFields((err, values) => {
+        if (err) {
+          return 1
+        }
+        console.log('form 表单内容: ', values)
+        form.resetFields()
+        this.isfinish = false
+        console.log(this.modal.addPlan.plans)
+        this.modal.addPlan.plans.name = values.name
+        // this.$router.push('/journey/look')
+        travelPlansave(this.modal.addPlan.plans).then(({ data: res }) => {
+          console.log(res)
+          if (res.success == true) {
+            this.$router.push({
+              path: '/journey/look',
+              query: this.modal.addPlan.plans,
+            })
+            this.$message.success(res.message)
+          } else {
+            this.$message.error(res.message)
+          }
+        })
+      })
     },
     // 切换页面
     onTabChange(key, type) {
@@ -303,7 +338,7 @@ export default {
     // 删除节点
     deletePoints(data) {
       deletes({ id: data.id }).then((res) => {
-        console.log(res)
+        console.log('dele', res)
         this.gettravelPoints()
       })
     },
@@ -315,11 +350,15 @@ export default {
     VueAreaCascader,
     // SelectTime,
   },
+  beforeCreate() {
+    //创建表单
+    this.form = this.$form.createForm(this, { name: 'form_in_modal' })
+  },
   created() {
     // 获取景点信息
     this.getSpotInfo()
     // 获取用户某日行程信息
-    if (this.travelPlanId !== '') {
+    if (this.travelPlanId !== undefined) {
       this.gettravelPoints()
     }
     console.log('days', this.days)

@@ -36,7 +36,7 @@
                   收藏
                 </a-button>
               </Spot>
-              <a-button type="link" icon="sync">更多</a-button>
+              <a-button type="link" icon="sync" @click="addMore()">更多</a-button>
             </div>
           </a-tab-pane>
         </a-tabs>
@@ -167,6 +167,7 @@ export default {
         vlogList: [],
         attractionList: [],
       },
+      pageSize: {},
     }
   },
   methods: {
@@ -187,11 +188,15 @@ export default {
         keyWord: this.keyWord,
         tags: this.tagList,
         pageNo: 1,
-        pageSize: 3,
+        pageSize: 20,
       }).then((res) => {
+        this.dataSource.attractionList = []
         this.dataSource.attractionList = res.data.result
         console.log('attraction', res)
       })
+    },
+    addMore() {
+      this.pageSize += 10
     },
   },
   created() {

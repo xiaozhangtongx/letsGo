@@ -1,5 +1,6 @@
 <template>
   <div>
+    {{plan}}
     <router-view />
   </div>
 </template>
@@ -8,7 +9,9 @@
 export default {
   name: '',
   data() {
-    return {}
+    return {
+      plan: this.$store.data,
+    }
   },
   methods: {},
 }

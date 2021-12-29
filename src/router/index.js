@@ -76,6 +76,12 @@ const routes = [
         name: 'My',
         component: () => import('../views/my/My.vue'),
       },
+      // 地图界面
+      {
+        path: '/map',
+        name: 'Map',
+        component: () => import('../map/Map.vue'),
+      },
     ],
   },
   //401权限不足
