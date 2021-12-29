@@ -2,13 +2,13 @@
   <div id="spot">
     <a-card :hoverable="true">
       <div class="spot">
-        <li class="img"><img src="../assets/logo.png" alt="" srcset=""></li>
+        <li class="img"><img :src="spot.images" alt="" srcset=""></li>
         <li class="detail">
           <h3><strong>{{spot.name}}</strong></h3>
           <h3><strong>地址：</strong>{{spot.location}}</h3>
           <h3><strong>描述:</strong>
             {{spot.name}}...</h3>
-          <router-link to="">详细信息</router-link>
+          <router-link to="">详细信息 </router-link>
           <slot name="add"></slot>
         </li>
       </div>
@@ -17,26 +17,21 @@
 </template>
 
 <script>
-import { add } from '@/api/travel_point.js'
 export default {
   name: '',
-  props: {
+  props: ['spot'],
+  /*   props: {
     spot: {
       type: Object,
       default() {
         return {}
       },
     },
-  },
+  }, */
   data() {
     return {}
   },
   methods: {},
-  filters: {
-    // strSlice(str) {
-    //   return str.slice(10) + '......'
-    // },
-  },
 }
 </script>
 

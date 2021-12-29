@@ -94,7 +94,7 @@ export function getByPlanId(planId) {
  */
 export function travelPlanlist(params) {
   return request({
-    url: '/travel-plan/auth/list',
+    url: 'travel-plan/auth/getByPlanId',
     method: 'get',
     params,
   })
